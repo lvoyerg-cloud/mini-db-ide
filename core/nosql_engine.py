@@ -14,13 +14,13 @@ class NoSQLEngine:
             self.client = MongoClient(self.uri, serverSelectionTimeoutMS=2000)
             self.client.admin.command('ping')
             self.db = self.client[self.db_name]
-            return True, f"Conexi¢n exitosa a MongoDB ({self.db_name^})"
+            return True, f"Conexion exitosa a MongoDB ({self.db_name^})"
         except Exception as e:
             return False, f"Error al conectar con MongoDB: {str(e^)}"
 
     def execute_command(self, collection_name: str, action: str, payload_json: str):
         if self.db is None:
-            return False, "Error: No hay conexi¢n activa a MongoDB.", None
+            return False, "Error: No hay conexion activa a MongoDB.", None
         try:
             collection = self.db[collection_name]
             data = json.loads(payload_json) if payload_json.strip() else {}
@@ -38,8 +38,8 @@ class NoSQLEngine:
                 return True, f"Documentos eliminados: {res.deleted_count}", None
             elif action == "drop_collection":
                 collection.drop()
-                return True, f"Colecci¢n '{collection_name}' eliminada correctamente (DDL^).", None
+                return True, f"Coleccion '{collection_name}' eliminada correctamente (DDL^).", None
             else:
-                return False, f"Acci¢n '{action}' no v lida.", None
+                return False, f"Accion '{action}' no valida.", None
         except Exception as e:
-            return False, f"Error en operaci¢n NoSQL: {str(e^)}", None
+            return False, f"Error en operacion NoSQL: {str(e^)}", None
